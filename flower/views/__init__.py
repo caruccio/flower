@@ -17,7 +17,8 @@ class BaseHandler(tornado.web.RequestHandler):
         functions = self._get_template_functions()
         assert not set(map(lambda x: x[0], functions)) & set(kwargs.keys())
         kwargs.update(functions)
-        super(BaseHandler, self).render(*args, **kwargs)
+        wsport = self.get_argument('wsport', default=None, type=int)
+        super(BaseHandler, self).render(*args, **kwargs wsport=wsport)
 
     def write_error(self, status_code, **kwargs):
         if status_code == 404:
